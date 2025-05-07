@@ -1,8 +1,3 @@
-import { useState } from "react";
-
-export default function AccessPage() {
-  const [password, setPassword] = useState("");
-
   return (
     <div style={{ textAlign: "center", paddingTop: "50px" }}>
       <h1>🔓 Accès au cadenas</h1>
@@ -16,9 +11,17 @@ export default function AccessPage() {
         style={{ padding: "10px", marginTop: "20px", width: "250px" }}
       />
       <br />
-      <button style={{ marginTop: "20px", padding: "10px 20px" }}>
+      <button
+        style={{ marginTop: "20px", padding: "10px 20px" }}
+        onClick={() => {
+          if (password === "1234") {
+            alert("✅ Cadenas déverrouillé !");
+          } else {
+            alert("❌ Mot de passe incorrect.");
+          }
+        }}
+      >
         Déverrouiller 🔓
       </button>
     </div>
   );
-}
