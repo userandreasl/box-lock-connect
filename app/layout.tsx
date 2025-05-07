@@ -1,4 +1,4 @@
-export const metadata = {
+// Ce fichier définit la structure HTML principale du site BoxLock Connectexport const metadata = {
   title: "BoxLock Connect",
   description: "Déverrouille ton cadenas connecté.",
 };
