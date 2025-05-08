@@ -7,7 +7,7 @@ const supabase = createClient(
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im16am5semFiZXRzYm9mZmptaGVqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY2NDIxNjQsImV4cCI6MjA2MjIxODE2NH0.jzLhPu7a9a_o82CEsT_CxFUihknwwJssGbL5fGoqBRw"
 );
 
-export default function AccessPage() {
+const AccessPage: FC = () => {
   const [password, setPassword] = useState("");
   const [lockExists, setLockExists] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(true);
@@ -75,3 +75,5 @@ export default function AccessPage() {
     </div>
   );
 };
+
+export default AccessPage;
