@@ -1,3 +1,4 @@
+// Forçage de déploiement Vercel
 export const metadata = {
   title: 'BoxLock Connect',
   description: 'Accès sécurisé à ton cadenas NFC',
