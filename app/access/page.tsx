@@ -1,21 +1,24 @@
-
- "use client";
+"use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { createClient } from "@supabase/supabase-js";
+import supabase from "@/utils/supabase";
 import type { FC } from "react";
-
-const supabase = createClient(
-  "https://mzjnlzabetsboffjmhej.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im16am5semFiZXRzYm9mZmptaGVqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY2NDIxNjQsImV4cCI6MjA2MjIxODE2NH0.jzLhPu7a9a_o82CEsT_CxFUihknwwJssGbL5fGoqBRw"
-);
 
 const AccessPage: FC = () => {
   const [password, setPassword] = useState("");
   const [lockExists, setLockExists] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const lockId = "lock-001"; // Identifiant unique du cadenas
+  const searchParams = new URLSearchParams(window.location.search);
+  const lockId = searchParams.get("id");
+
+  if (!lockId) {
+    return (
+      <div style={{ fontFamily: "Helvetica Neue, sans-serif", fontSize: "18px", color: "red", textAlign: "center", padding: "20px" }}>
+        ❌ Le lien scanné n’est pas valide.
+      </div>
+    );
+  }
 
   useEffect(() => {
     const checkLock = async () => {
@@ -25,17 +28,25 @@ const AccessPage: FC = () => {
         .eq("id", lockId)
         .single();
 
+      if (error) {
+        console.error("Erreur Supabase :", error.message);
+        setLockExists(false);
+        setLoading(false);
+        return;
+      }
+
       if (!data) {
-        // Redirige vers /setup si aucun cadenas trouvé
+        console.warn("Aucun cadenas trouvé, redirection vers /setup...");
         window.location.href = `/setup?id=${lockId}`;
       } else {
+        console.log("Cadenas trouvé :", data.id);
         setLockExists(true);
         setLoading(false);
       }
     };
 
     checkLock();
-  }, []);
+  }, [lockId]);
 
   const handleUnlock = async () => {
     const inputPassword = password;
@@ -58,12 +69,14 @@ const AccessPage: FC = () => {
     }
   };
 
-  if (loading) return <p>Chargement...</p>;
+  if (loading) return <p style={{ fontFamily: "Helvetica Neue, sans-serif" }}>Chargement...</p>;
 
-  if (!lockExists) return <p>🔒 Cadenas introuvable</p>;
+  if (lockExists === false) return <p style={{ fontFamily: "Helvetica Neue, sans-serif" }}>❗ Connexion échouée ou cadenas introuvable.</p>;
+
+  if (!lockExists) return <p style={{ fontFamily: "Helvetica Neue, sans-serif" }}>🔒 Cadenas introuvable</p>;
 
   return (
-    <div>
+    <div style={{ fontFamily: "Helvetica Neue, sans-serif" }}>
       <input
         type="password"
         placeholder="Mot de passe"
