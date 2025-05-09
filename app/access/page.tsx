@@ -1,6 +1,7 @@
 
-"use client";
+ "use client";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
 import type { FC } from "react";
 
@@ -24,10 +25,13 @@ const AccessPage: FC = () => {
         .eq("id", lockId)
         .single();
 
-      if (data) setLockExists(true);
-      else setLockExists(false);
-
-      setLoading(false);
+      if (!data) {
+        // Redirige vers /setup si aucun cadenas trouvé
+        window.location.href = `/setup?id=${lockId}`;
+      } else {
+        setLockExists(true);
+        setLoading(false);
+      }
     };
 
     checkLock();
