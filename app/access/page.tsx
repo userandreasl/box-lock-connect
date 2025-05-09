@@ -1,3 +1,5 @@
+
+"use client";
 import { useEffect, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 import type { FC } from "react";
@@ -63,7 +65,14 @@ const AccessPage: FC = () => {
         placeholder="Mot de passe"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        style={{ padding: "10px", margin: "10px", width: "250px" }}
+        style={{
+          padding: "10px",
+          margin: "10px",
+          width: "250px",
+          fontSize: "16px",
+          border: "1px solid #ccc",
+          borderRadius: "4px"
+        }}
       />
       <br />
       <button
