@@ -1,13 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import supabase from "@/utils/supabase";
+import supabase from "../../utils/supabase";
 import type { FC } from "react";
 
 const AccessPage: FC = () => {
   const [password, setPassword] = useState("");
   const [lockExists, setLockExists] = useState<boolean | null>(null);
-  const [loading, setLoading] = useState(true);
 
   const searchParams = new URLSearchParams(window.location.search);
   const lockId = searchParams.get("id");
